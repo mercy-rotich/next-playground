@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Newton 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Pages */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            z-index: 1;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        /* Floating hearts animation */
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float-up 6s infinite ease-in;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 900px;
+            width: 90%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Navigation buttons */
+        .nav-btn {
+            position: fixed;
+            bottom: 40px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.9);
+            color: #764ba2;
+            border: 3px solid #764ba2;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .nav-btn.next {
+            right: 40px;
+        }
+
+        .nav-btn.prev {
+            left: 40px;
+        }
+
+        /* Page indicator */
+        .page-indicator {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .page-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .page-dot.active {
+            background: white;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .header p {
+            font-size: 1.5em;
+            color: #ffe6f0;
+            font-style: italic;
+        }
+
+        .welcome-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .welcome-content h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-content p {
+            color: #555;
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .content-section h2 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Photo gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .photo-slot {
+            position: relative;
+            padding-bottom: 100%;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe6f0 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 3px dashed #ff69b4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-slot:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .photo-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff69b4;
+            font-size: 0.9em;
+            padding: 20px;
+        }
+
+        .photo-placeholder::before {
+            content: "📸";
+            display: block;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        /* Envelope section */
+        .envelope-section {
+            text-align: center;
+        }
+
+        .envelope-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            margin: 20px 0;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff6b9d;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 110px solid #ff8fb3;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+            z-index: 5;
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-top {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #ff5582;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            width: 300px;
+            background: #fffef7;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -30%);
+            transition: transform 0.8s ease, top 0.8s ease, opacity 0.8s ease;
+            z-index: 4;
+            max-height: 160px;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .envelope.open .letter {
+            top: -180px;
+            transform: translate(-50%, 0);
+            max-height: 500px;
+            overflow-y: auto;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .letter-content {
+            font-size: 0.95em;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .envelope-instruction {
+            text-align: center;
+            color: #764ba2;
+            margin: 20px 0;
+            font-size: 1.3em;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Valentine question section */
+        .valentine-section {
+            text-align: center;
+        }
+
+        .valentine-section h2 {
+            font-size: 3em;
+            color: #ff1493;
+            margin-bottom: 60px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(0.95); }
+        }
+
+        .buttons-container {
+            position: relative;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .btn {
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.5);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #a8a8a8 0%, #6b6b6b 100%);
+            color: white;
+            position: absolute;
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            font-size: 3em;
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 1.5em;
+            color: #764ba2;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .firework::before {
+            content: '✨';
+            font-size: 30px;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .content-section h2 { font-size: 2em; }
+            .valentine-section h2 { font-size: 2em; }
+            .btn { padding: 15px 40px; font-size: 1.2em; }
+            .nav-btn { 
+                padding: 12px 25px; 
+                font-size: 1em;
+                bottom: 20px;
+            }
+            .nav-btn.next { right: 20px; }
+            .nav-btn.prev { left: 20px; }
+            .content-section {
+                padding: 30px 20px;
+            }
+            .envelope {
+                width: 280px;
+                height: 190px;
+            }
+            .letter {
+                width: 260px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container" id="heartContainer"></div>
+    
+    <!-- Page Indicator -->
+    <div class="page-indicator">
+        <div class="page-dot active" data-page="0"></div>
+        <div class="page-dot" data-page="1"></div>
+        <div class="page-dot" data-page="2"></div>
+        <div class="page-dot" data-page="3"></div>
+    </div>
+
+    <!-- Page 1: Welcome -->
+    <div class="page active" id="page1">
+        <div class="container">
+            <div class="header">
+                <h1>💕 For My Dearest Newton 💕</h1>
+                <p>The man who makes every day feel like Valentine's Day</p>
+            </div>
+            <div class="welcome-content">
+                <h2>Welcome, My Love</h2>
+                <p>I've created something special just for you...</p>
+                <p>A little journey through my heart to show you how much you mean to me.</p>
+                <p style="margin-top: 30px; font-size: 1.1em; color: #764ba2;">💝 Click next to begin 💝</p>
+            </div>
+        </div>
+        <button class="nav-btn next" onclick="nextPage()">Next →</button>
+    </div>
+
+    <!-- Page 2: Photo Gallery -->
+    <div class="page" id="page2">
+        <div class="container">
+            <div class="content-section">
+                <h2>Our Beautiful Memories Together 📸</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px; font-style: italic;">
+                    Every moment with you is a treasure. Here are some of my favorite memories of us.
+                </p>
+                <div class="photo-gallery">
+                
+                    <div class="photo-slot" style="background-image: url('IMG1.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="photo-slot" style="background-image: url('img2.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="photo-slot" style="background-image: url('img6.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="photo-slot" style="background-image: url('img7.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="photo-slot" style="background-image: url('img4.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="photo-slot" style="background-image: url('img5.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="nav-btn prev" onclick="prevPage()">← Previous</button>
+        <button class="nav-btn next" onclick="nextPage()">Next →</button>
+    </div>
+
+    <!-- Page 3: Love Letter -->
+    <div class="page" id="page3">
+        <div class="container">
+            <div class="content-section envelope-section">
+                <h2>A Letter From My Heart 💌</h2>
+                <p class="envelope-instruction">Click the envelope to read my letter to you...</p>
+                <div class="envelope-container">
+                    <div class="envelope" id="envelope">
+                        <div class="envelope-back"></div>
+                        <div class="envelope-front"></div>
+                        <div class="envelope-top"></div>
+                        <div class="letter">
+                            <div class="letter-content">
+                                <p style="text-align: right; margin-bottom: 15px; font-style: italic;">To my beloved Newton,</p>
+                                
+                                <p>Words cannot fully express how grateful I am to have you in my life. You've been my rock, my confidant, and my greatest source of joy.</p>
+                                
+                                <p style="margin-top: 15px;">Every day with you is a gift. Your love, support, and unwavering presence have made me a better person. You see me at my worst and still choose to love me at my best.</p>
+                                
+                                <p style="margin-top: 15px;">Thank you for every laugh we've shared, every tear you've wiped away, and every moment you've stood by my side. You are not just my boyfriend—you are my best friend, my partner, and the love of my life.</p>
+                                
+                                <p style="margin-top: 15px;">I promise to cherish you, support your dreams, and love you more with each passing day.</p>
+                                
+                                <p style="margin-top: 20px; text-align: center; font-style: italic;">Forever yours,<br>Your Valentine 💕</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="nav-btn prev" onclick="prevPage()">← Previous</button>
+        <button class="nav-btn next" onclick="nextPage()">Next →</button>
+    </div>
+
+    <!-- Page 4: Valentine Question -->
+    <div class="page" id="page4">
+        <div class="container">
+            <div class="content-section valentine-section">
+                <h2>Will You Be My Valentine? 💝</h2>
+                <div id="questionContainer">
+                    <div class="buttons-container">
+                        <button class="btn btn-yes" id="yesBtn">YES! 💕</button>
+                        <button class="btn btn-no" id="noBtn">No</button>
+                    </div>
+                </div>
+                <div class="success-message" id="successMessage">
+                    <h3>🎉 YAAAY! 🎉</h3>
+                    <p>I knew you'd say yes! You've made me the happiest person alive! 💕</p>
+                    <p style="margin-top: 20px; font-size: 1.2em;">I love you so much, Newton! ❤️</p>
+                </div>
+            </div>
+        </div>
+        <button class="nav-btn prev" onclick="prevPage()">← Previous</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 4;
+
+        // Page navigation
+        function showPage(pageIndex) {
+            const pages = document.querySelectorAll('.page');
+            const dots = document.querySelectorAll('.page-dot');
+            
+            pages.forEach((page, index) => {
+                if (index === pageIndex) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+            
+            dots.forEach((dot, index) => {
+                if (index === pageIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            currentPage = pageIndex;
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                showPage(currentPage + 1);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                showPage(currentPage - 1);
+            }
+        }
+
+        // Page indicator clicks
+        document.querySelectorAll('.page-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const pageIndex = parseInt(this.getAttribute('data-page'));
+                showPage(pageIndex);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+        });
+
+        // Floating hearts animation
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.getElementById('heartContainer').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(createFloatingHeart, 300);
+
+        // Envelope opening
+        const envelope = document.getElementById('envelope');
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('open');
+        });
+
+        // Valentine question - moving NO button
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const successMessage = document.getElementById('successMessage');
+        const questionContainer = document.getElementById('questionContainer');
+
+        let noClickCount = 0;
+
+        noBtn.addEventListener('mouseover', function() {
+            const container = document.querySelector('.buttons-container');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = containerRect.width - noBtn.offsetWidth - 20;
+            const maxY = containerRect.height - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            noClickCount++;
+            
+            const newNoSize = Math.max(0.5, 1 - (noClickCount * 0.1));
+            const newYesSize = 1 + (noClickCount * 0.2);
+            
+            noBtn.style.transform = `scale(${newNoSize})`;
+            yesBtn.style.transform = `scale(${newYesSize})`;
+            
+            if (noClickCount >= 5) {
+                noBtn.style.display = 'none';
+            }
+        });
+
+        yesBtn.addEventListener('click', function() {
+            questionContainer.style.display = 'none';
+            successMessage.classList.add('show');
+            
+            // Create fireworks effect
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    document.body.appendChild(firework);
+                    setTimeout(() => firework.remove(), 1000);
+                }, i * 100);
+            }
+            
+            // Extra hearts celebration
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createFloatingHeart, i * 50);
+            }
+        });
+    </script>
+</body>
+</html>
