@@ -466,27 +466,224 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header h1 { font-size: 2.5em; }
-            .content-section h2 { font-size: 2em; }
-            .valentine-section h2 { font-size: 2em; }
-            .btn { padding: 15px 40px; font-size: 1.2em; }
-            .nav-btn { 
-                padding: 12px 25px; 
-                font-size: 1em;
-                bottom: 20px;
+            body {
+                overflow-x: hidden;
             }
-            .nav-btn.next { right: 20px; }
-            .nav-btn.prev { left: 20px; }
+
+            .header h1 { 
+                font-size: 2em; 
+                line-height: 1.2;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+
+            .welcome-content {
+                padding: 40px 25px;
+                width: 95%;
+            }
+
+            .welcome-content h2 {
+                font-size: 1.5em;
+            }
+
+            .welcome-content p {
+                font-size: 1.1em;
+            }
+
             .content-section {
+                padding: 30px 15px;
+                max-height: 85vh;
+            }
+
+            .content-section h2 { 
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-top: 20px;
+            }
+
+            .photo-slot {
+                border: 2px dashed #ff69b4;
+            }
+
+            .valentine-section h2 { 
+                font-size: 1.8em;
+                margin-bottom: 40px;
+            }
+
+            .buttons-container {
+                height: 150px;
+                gap: 20px;
+                flex-direction: column;
+            }
+
+            .btn { 
+                padding: 15px 50px; 
+                font-size: 1.1em;
+                width: auto;
+            }
+
+            .nav-btn { 
+                padding: 10px 20px; 
+                font-size: 0.9em;
+                bottom: 15px;
+            }
+            
+            .nav-btn.next { right: 15px; }
+            .nav-btn.prev { left: 15px; }
+
+            .page-indicator {
+                top: 15px;
+                gap: 10px;
+            }
+
+            .page-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .envelope-container {
+                min-height: 400px;
+                margin: 10px 0;
+            }
+
+            .envelope {
+                width: 240px;
+                height: 165px;
+                transform: scale(0.95);
+            }
+
+            .envelope-front {
+                border-left: 120px solid transparent;
+                border-right: 120px solid transparent;
+                border-bottom: 82.5px solid #ff8fb3;
+            }
+
+            .envelope-top {
+                border-left: 120px solid transparent;
+                border-right: 120px solid transparent;
+                border-top: 82.5px solid #ff5582;
+            }
+
+            .letter {
+                width: 220px;
+                padding: 20px 15px;
+                font-size: 0.9em;
+                max-height: 140px;
+            }
+
+            .envelope.open .letter {
+                top: -200px;
+                max-height: 400px;
+                width: 260px;
+            }
+
+            .letter-content {
+                font-size: 0.85em;
+                line-height: 1.6;
+            }
+
+            .letter-content p {
+                margin-bottom: 10px;
+            }
+
+            .envelope-instruction {
+                font-size: 1.1em;
+                margin: 15px 10px;
+            }
+
+            .success-message h3 {
+                font-size: 2.2em;
+            }
+
+            .success-message p {
+                font-size: 1.2em;
+            }
+
+            .floating-heart {
+                font-size: 16px;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-width: 480px) {
+            .header h1 { 
+                font-size: 1.7em; 
+            }
+
+            .welcome-content {
                 padding: 30px 20px;
             }
-            .envelope {
-                width: 280px;
-                height: 190px;
+
+            .content-section {
+                padding: 25px 12px;
             }
+
+            .content-section h2 { 
+                font-size: 1.4em;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .valentine-section h2 { 
+                font-size: 1.5em;
+            }
+
+            .btn { 
+                padding: 12px 40px; 
+                font-size: 1em;
+            }
+
+            .nav-btn { 
+                padding: 8px 15px; 
+                font-size: 0.85em;
+                bottom: 10px;
+            }
+
+            .nav-btn.next { right: 10px; }
+            .nav-btn.prev { left: 10px; }
+
+            .envelope {
+                width: 200px;
+                height: 140px;
+            }
+
+            .envelope-front {
+                border-left: 100px solid transparent;
+                border-right: 100px solid transparent;
+                border-bottom: 70px solid #ff8fb3;
+            }
+
+            .envelope-top {
+                border-left: 100px solid transparent;
+                border-right: 100px solid transparent;
+                border-top: 70px solid #ff5582;
+            }
+
             .letter {
-                width: 260px;
-                padding: 20px;
+                width: 180px;
+                padding: 15px 12px;
+            }
+
+            .envelope.open .letter {
+                width: 220px;
+            }
+
+            .success-message h3 {
+                font-size: 1.8em;
+            }
+
+            .success-message p {
+                font-size: 1em;
             }
         }
     </style>
